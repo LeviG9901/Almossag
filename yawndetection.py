@@ -2,7 +2,7 @@ import cv2
 import dlib
 import numpy as np
 
-PREDICTOR_PATH = "./shape_predictor_68_face_landmarks.dat"
+PREDICTOR_PATH = "./input/landmark/shape_predictor_68_face_landmarks.dat"
 predictor = dlib.shape_predictor(PREDICTOR_PATH)
 detector = dlib.get_frontal_face_detector()
 

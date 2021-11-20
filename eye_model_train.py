@@ -40,4 +40,4 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 model.fit(train_batch, validation_data=valid_batch, epochs=50, steps_per_epoch=SPE, validation_steps=VS)
 
-model.save('./eye_model.h5', overwrite=True)
+model.save('./keras/model/eye_model.h5', overwrite=True)
