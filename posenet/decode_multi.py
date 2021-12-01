@@ -2,6 +2,8 @@ from posenet.decode import *
 from posenet.constants import *
 import time
 import scipy.ndimage as ndi
+import db_connect
+from datetime import datetime
 
 
 def within_nms_radius(poses, squared_nms_radius, point, keypoint_id):
@@ -82,7 +84,6 @@ def build_part_with_score_fast(score_threshold, local_max_radius, scores):
     parts = []
     num_keypoints = scores.shape[2]
     lmd = 2 * local_max_radius + 1
-
     # NOTE it seems faster to iterate over the keypoints and perform maximum_filter
     # on each subarray vs doing the op on the full score array with size=(lmd, lmd, 1)
     for keypoint_id in range(num_keypoints):
@@ -91,13 +92,17 @@ def build_part_with_score_fast(score_threshold, local_max_radius, scores):
         max_vals = ndi.maximum_filter(kp_scores, size=lmd, mode='constant')
         max_loc = np.logical_and(kp_scores == max_vals, kp_scores > 0)
         max_loc_idx = max_loc.nonzero()
-        for y, x in zip(*max_loc_idx):
-            parts.append((
-                scores[y, x, keypoint_id],
-                keypoint_id,
-                np.array((y, x))
+        for y, x in zip(*max_loc_idx): # Y és X koordináta értékeken iterálás
+            parts.append(( # Testrész tömb bővítése
+                scores[y, x, keypoint_id], # "Scores"-ban az Y, X koordináták, és a testrész id eltárolása
+                keypoint_id, # Testrész id
+                np.array((y, x)) # Y és X koordináta eltárolása Numpy tömbben
             ))
-
+            if(keypoint_id >= 5 and keypoint_id <=10): # Ha a testrész id nagyobb egyenlő, mint 5, és kisebb egyenlő, mint 10
+                keypoint_id = keypoint_id - 4 # Testrész id-ból négy kivonása
+                sql = "INSERT INTO felsotest (Testresz, Idopont) VALUES (%s , %s )" # SQL kód
+                values = (keypoint_id, datetime.now()) # Értékek meghatározása
+                db_connect.insert_into_table(sql, values) # SQL-be mentés függvénnyel
     return parts
 
 
