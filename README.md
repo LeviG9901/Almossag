@@ -28,6 +28,6 @@ _____________________________________________________
 4.  Activate environment with running this code:<br />`conda activate myenv`
 5.  Run:<br />`cd myenv`
 6.  Run:<br />`conda install -c conda-forge dlib`
-7.  Create a requirements.txt file inside the virtual environment folder and copy paste the content from the requirements.txt you can found inside this repository to         the txt file you just created
+7.  Create a requirements.txt file inside the virtual environment folder and copy paste the content from the `requirements.txt` you can find **inside this repository**     to the txt file you just created
 8.  Run in the Anaconda Prompt 3:<br />`pip install -r requirements.txt` 
 9.  Open GithubDesktop and click on Current Repository -> Clone Repository -> URL -> https://www.github.com/LeviG9901/DrowsinessDetection and then give a destination         where you want the repository to be cloned
